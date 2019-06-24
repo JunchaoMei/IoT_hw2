@@ -1,0 +1,145 @@
+
+test-print-d:     file format elf32-littlearm
+
+
+Disassembly of section .init:
+
+000102f4 <_init>:
+   102f4:	e1a0c00d 	mov	ip, sp
+   102f8:	e92ddff0 	push	{r4, r5, r6, r7, r8, r9, sl, fp, ip, lr, pc}
+   102fc:	e24cb004 	sub	fp, ip, #4
+   10300:	e91baff0 	ldmdb	fp, {r4, r5, r6, r7, r8, r9, sl, fp, sp, pc}
+
+Disassembly of section .plt:
+
+00010304 <.plt>:
+   10304:	e52de004 	push	{lr}		; (str lr, [sp, #-4]!)
+   10308:	e59fe004 	ldr	lr, [pc, #4]	; 10314 <.plt+0x10>
+   1030c:	e08fe00e 	add	lr, pc, lr
+   10310:	e5bef008 	ldr	pc, [lr, #8]!
+   10314:	00010cec 	.word	0x00010cec
+
+00010318 <puts@plt>:
+   10318:	e28fc600 	add	ip, pc, #0, 12
+   1031c:	e28cca10 	add	ip, ip, #16, 20	; 0x10000
+   10320:	e5bcfcec 	ldr	pc, [ip, #3308]!	; 0xcec
+
+00010324 <abort@plt>:
+   10324:	e28fc600 	add	ip, pc, #0, 12
+   10328:	e28cca10 	add	ip, ip, #16, 20	; 0x10000
+   1032c:	e5bcfce4 	ldr	pc, [ip, #3300]!	; 0xce4
+
+00010330 <__deregister_frame_info@plt>:
+   10330:	e28fc600 	add	ip, pc, #0, 12
+   10334:	e28cca10 	add	ip, ip, #16, 20	; 0x10000
+   10338:	e5bcfcdc 	ldr	pc, [ip, #3292]!	; 0xcdc
+
+0001033c <__uClibc_main@plt>:
+   1033c:	e28fc600 	add	ip, pc, #0, 12
+   10340:	e28cca10 	add	ip, ip, #16, 20	; 0x10000
+   10344:	e5bcfcd4 	ldr	pc, [ip, #3284]!	; 0xcd4
+
+00010348 <__register_frame_info@plt>:
+   10348:	e28fc600 	add	ip, pc, #0, 12
+   1034c:	e28cca10 	add	ip, ip, #16, 20	; 0x10000
+   10350:	e5bcfccc 	ldr	pc, [ip, #3276]!	; 0xccc
+
+Disassembly of section .text:
+
+00010354 <_start>:
+   10354:	e3a0b000 	mov	fp, #0
+   10358:	e3a0e000 	mov	lr, #0
+   1035c:	e49d1004 	pop	{r1}		; (ldr r1, [sp], #4)
+   10360:	e1a0200d 	mov	r2, sp
+   10364:	e52d2004 	push	{r2}		; (str r2, [sp, #-4]!)
+   10368:	e52d0004 	push	{r0}		; (str r0, [sp, #-4]!)
+   1036c:	e59fc010 	ldr	ip, [pc, #16]	; 10384 <_start+0x30>
+   10370:	e52dc004 	push	{ip}		; (str ip, [sp, #-4]!)
+   10374:	e59f000c 	ldr	r0, [pc, #12]	; 10388 <_start+0x34>
+   10378:	e59f300c 	ldr	r3, [pc, #12]	; 1038c <_start+0x38>
+   1037c:	eaffffee 	b	1033c <__uClibc_main@plt>
+   10380:	ebffffe7 	bl	10324 <abort@plt>
+   10384:	0001048c 	.word	0x0001048c
+   10388:	0001046c 	.word	0x0001046c
+   1038c:	000102f4 	.word	0x000102f4
+
+00010390 <deregister_tm_clones>:
+   10390:	e59f0018 	ldr	r0, [pc, #24]	; 103b0 <deregister_tm_clones+0x20>
+   10394:	e59f3018 	ldr	r3, [pc, #24]	; 103b4 <deregister_tm_clones+0x24>
+   10398:	e1530000 	cmp	r3, r0
+   1039c:	012fff1e 	bxeq	lr
+   103a0:	e59f3010 	ldr	r3, [pc, #16]	; 103b8 <deregister_tm_clones+0x28>
+   103a4:	e3530000 	cmp	r3, #0
+   103a8:	012fff1e 	bxeq	lr
+   103ac:	e12fff13 	bx	r3
+   103b0:	00021028 	.word	0x00021028
+   103b4:	00021028 	.word	0x00021028
+   103b8:	00000000 	.word	0x00000000
+
+000103bc <register_tm_clones>:
+   103bc:	e59f0024 	ldr	r0, [pc, #36]	; 103e8 <register_tm_clones+0x2c>
+   103c0:	e59f1024 	ldr	r1, [pc, #36]	; 103ec <register_tm_clones+0x30>
+   103c4:	e0411000 	sub	r1, r1, r0
+   103c8:	e1a01141 	asr	r1, r1, #2
+   103cc:	e0811fa1 	add	r1, r1, r1, lsr #31
+   103d0:	e1b010c1 	asrs	r1, r1, #1
+   103d4:	012fff1e 	bxeq	lr
+   103d8:	e59f3010 	ldr	r3, [pc, #16]	; 103f0 <register_tm_clones+0x34>
+   103dc:	e3530000 	cmp	r3, #0
+   103e0:	012fff1e 	bxeq	lr
+   103e4:	e12fff13 	bx	r3
+   103e8:	00021028 	.word	0x00021028
+   103ec:	00021028 	.word	0x00021028
+   103f0:	00000000 	.word	0x00000000
+
+000103f4 <__do_global_dtors_aux>:
+   103f4:	e59f3034 	ldr	r3, [pc, #52]	; 10430 <__do_global_dtors_aux+0x3c>
+   103f8:	e5d32000 	ldrb	r2, [r3]
+   103fc:	e3520000 	cmp	r2, #0
+   10400:	112fff1e 	bxne	lr
+   10404:	e92d4010 	push	{r4, lr}
+   10408:	e1a04003 	mov	r4, r3
+   1040c:	ebffffdf 	bl	10390 <deregister_tm_clones>
+   10410:	e59f301c 	ldr	r3, [pc, #28]	; 10434 <__do_global_dtors_aux+0x40>
+   10414:	e3530000 	cmp	r3, #0
+   10418:	0a000001 	beq	10424 <__do_global_dtors_aux+0x30>
+   1041c:	e59f0014 	ldr	r0, [pc, #20]	; 10438 <__do_global_dtors_aux+0x44>
+   10420:	ebffffc2 	bl	10330 <__deregister_frame_info@plt>
+   10424:	e3a03001 	mov	r3, #1
+   10428:	e5c43000 	strb	r3, [r4]
+   1042c:	e8bd8010 	pop	{r4, pc}
+   10430:	00021028 	.word	0x00021028
+   10434:	00000000 	.word	0x00000000
+   10438:	000104b0 	.word	0x000104b0
+
+0001043c <frame_dummy>:
+   1043c:	e59f301c 	ldr	r3, [pc, #28]	; 10460 <frame_dummy+0x24>
+   10440:	e3530000 	cmp	r3, #0
+   10444:	0a000004 	beq	1045c <frame_dummy+0x20>
+   10448:	e92d4010 	push	{r4, lr}
+   1044c:	e59f1010 	ldr	r1, [pc, #16]	; 10464 <frame_dummy+0x28>
+   10450:	e59f0010 	ldr	r0, [pc, #16]	; 10468 <frame_dummy+0x2c>
+   10454:	ebffffbb 	bl	10348 <__register_frame_info@plt>
+   10458:	e8bd4010 	pop	{r4, lr}
+   1045c:	eaffffd6 	b	103bc <register_tm_clones>
+   10460:	00000000 	.word	0x00000000
+   10464:	0002102c 	.word	0x0002102c
+   10468:	000104b0 	.word	0x000104b0
+
+0001046c <main>:
+   1046c:	e92d4800 	push	{fp, lr}
+   10470:	e28db004 	add	fp, sp, #4
+   10474:	e59f000c 	ldr	r0, [pc, #12]	; 10488 <main+0x1c>
+   10478:	ebffffa6 	bl	10318 <puts@plt>
+   1047c:	e3a03000 	mov	r3, #0
+   10480:	e1a00003 	mov	r0, r3
+   10484:	e8bd8800 	pop	{fp, pc}
+   10488:	0001049c 	.word	0x0001049c
+
+Disassembly of section .fini:
+
+0001048c <_fini>:
+   1048c:	e1a0c00d 	mov	ip, sp
+   10490:	e92ddff0 	push	{r4, r5, r6, r7, r8, r9, sl, fp, ip, lr, pc}
+   10494:	e24cb004 	sub	fp, ip, #4
+   10498:	e91baff0 	ldmdb	fp, {r4, r5, r6, r7, r8, r9, sl, fp, sp, pc}
