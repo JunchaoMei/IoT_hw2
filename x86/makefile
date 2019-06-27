@@ -5,9 +5,9 @@ INCLUDES=
 LFLAGS=-L/usr/lib/x86_64-linux-gnu
 LIBS=-lcurl -lpthread
 
-SRC=requestor.c
+SRC=hw2.c
 OBJ=$(SRC:.c=.o)
-MAIN=test_x86
+MAIN=hw2_x86
 
 RM=rm -rf
 

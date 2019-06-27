@@ -7,9 +7,9 @@ LFLAGS=
 
 LIBS=-lcurl -uClibc -lc
 
-SRC=requestor.c
+SRC=delete.c
 OBJ=$(SRC:.c=.o)
-MAIN=test_arm
+MAIN=delete_arm
 
 RM=rm -rf
 

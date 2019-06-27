@@ -18,6 +18,9 @@ int main(void)
         curl_easy_setopt(curl, CURLOPT_URL, myURL);
         curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
         res = curl_easy_perform(curl);
+        long http_status = 0;
+        curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_status);
+        printf("%s %ld\n", "Return HTTP Status: ",http_status);;
         if (res != CURLE_OK)
         {
         	return REQ_ERR;
