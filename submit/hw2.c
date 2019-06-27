@@ -1,6 +1,10 @@
-/* Compilation Commands:
+/* Compilation Commands
+[x86]
 gcc   -c hw2.c -o hw2.o
-gcc   -o hw2_x86 hw2.o -L/usr/lib/x86_64-linux-gnu -lcurl -lpthread
+gcc   -o hw2 hw2.o -L/usr/lib/x86_64-linux-gnu -lcurl -lpthread
+[arm]
+${BUILDROOT_HOME}/output/host/usr/bin/arm-linux-gcc --sysroot=${BUILDROOT_HOME}/output/staging  -c hw2.c -o hw2.o
+${BUILDROOT_HOME}/output/host/usr/bin/arm-linux-gcc --sysroot=${BUILDROOT_HOME}/output/staging  -o hw2 hw2.o  -lcurl -uClibc -lc
 */
 #include <stdio.h>
 #include <curl/curl.h>
@@ -127,7 +131,7 @@ int main(int argc, char **argv)
     CURLcode    res;
     // special initialization for PUT
     if (strcmp(input[2],"(somefile)")==0) //not initialized
-    	input[2] = "makefile"; //default file to use
+    	input[2] = "hw2"; //default file to use
     FILE *hd_src;  hd_src = fopen(input[2], "rb");
     struct stat file_info;  stat(input[2], &file_info);
 	
@@ -137,6 +141,7 @@ int main(int argc, char **argv)
         curl_easy_setopt(curl, CURLOPT_URL, input[0]);
         curl_easy_setopt(curl, CURLOPT_USERNAME, "usernmae");
     	curl_easy_setopt(curl, CURLOPT_PASSWORD, "password");
+    	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L); // for arm
 
 		switch (operation)
 		{

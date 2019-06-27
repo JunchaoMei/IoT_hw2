@@ -7,9 +7,9 @@ LFLAGS=
 
 LIBS=-lcurl -uClibc -lc
 
-SRC=delete.c
+SRC=hw2.c
 OBJ=$(SRC:.c=.o)
-MAIN=delete_arm
+MAIN=hw2
 
 RM=rm -rf
 
