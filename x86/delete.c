@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <curl/curl.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 
 int main(void)
 {
@@ -12,7 +10,7 @@ int main(void)
   if(curl) {
     curl_easy_setopt(curl, CURLOPT_USERNAME, "user");
     curl_easy_setopt(curl, CURLOPT_PASSWORD, "secret");
-    curl_easy_setopt(curl, CURLOPT_URL, "https://postb.in/1561610368380-9441023569088");
+    curl_easy_setopt(curl, CURLOPT_URL, "https://postb.in/1562368510601-9907525288872");
     
     //==============unique code start=================
     curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "DELETE");

@@ -9,8 +9,6 @@ ${BUILDROOT_HOME}/output/host/usr/bin/arm-linux-gcc --sysroot=${BUILDROOT_HOME}/
 #include <stdio.h>
 #include <curl/curl.h>
 #include <string.h>
-#include <fcntl.h>
-#include <sys/stat.h>
 
 #define OK          0
 #define INIT_ERR    1
@@ -36,16 +34,6 @@ void printHelp()
 	printf(" 2	Requesting Error\n");
 }
 
-static size_t read_callback(void *ptr, size_t size, size_t nmemb, void *stream)
-{
-  size_t retcode;
-  curl_off_t nread;
-  retcode = fread(ptr, size, nmemb, stream);
-  nread = (curl_off_t)retcode;
-  fprintf(stderr, "*** We read %" CURL_FORMAT_CURL_OFF_T " bytes from file\n", nread);
-  return retcode;
-}
-
 char parseArg(int argc, char **argv, char **input)
 {
 	// return operation flag
@@ -64,9 +52,9 @@ char parseArg(int argc, char **argv, char **input)
 				{
 					input[1] = argv[i+1];
 					returnValue = 'o';
-				} else
+				} else // PUT
 				{
-					input[2] = argv[i+1];
+					input[1] = argv[i+1];
 					returnValue = 'p';
 				}
 			} else
@@ -106,12 +94,10 @@ void setupPOST(CURL *curl, char *postthis)
     curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, (long)strlen(postthis));
 }
 
-void setupPUT(CURL *curl, struct stat file_info, FILE *hd_src)
+void setupPUT(CURL *curl, char *putthis)
 {
-	curl_easy_setopt(curl, CURLOPT_READFUNCTION, read_callback);
-    curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
-    curl_easy_setopt(curl, CURLOPT_READDATA, hd_src);
-    curl_easy_setopt(curl, CURLOPT_INFILESIZE_LARGE, (curl_off_t)file_info.st_size);
+	curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "PUT");
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, putthis);
 }
 
 void setupDELETE(CURL *curl)
@@ -123,24 +109,18 @@ void setupDELETE(CURL *curl)
 int main(int argc, char **argv)
 {
 	int UnixStandardStatus = OK;
-	char *input[3] = {"url","(something)","(somefile)"};
+	char *input[2] = {"url","(something)"};
 	char operation = parseArg(argc, argv, input); //initialize input[]
 
-	// general initialization for GET POST PUT DELETE
     CURL        *curl;
     CURLcode    res;
-    // special initialization for PUT
-    if (strcmp(input[2],"(somefile)")==0) //not initialized
-    	input[2] = "hw2"; //default file to use
-    FILE *hd_src;  hd_src = fopen(input[2], "rb");
-    struct stat file_info;  stat(input[2], &file_info);
 	
     curl = curl_easy_init();
     if (curl)
     {
         curl_easy_setopt(curl, CURLOPT_URL, input[0]);
-        curl_easy_setopt(curl, CURLOPT_USERNAME, "usernmae");
-    	curl_easy_setopt(curl, CURLOPT_PASSWORD, "password");
+        //curl_easy_setopt(curl, CURLOPT_USERNAME, "usernmae");
+    	//curl_easy_setopt(curl, CURLOPT_PASSWORD, "password");
     	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L); // for arm
 
 		switch (operation)
@@ -152,7 +132,7 @@ int main(int argc, char **argv)
 				setupPOST(curl, input[1]);
 				break;
 			case 'p':
-				setupPUT(curl, file_info, hd_src);;
+				setupPUT(curl, input[1]);
 				break;
 			case 'd':
 				setupDELETE(curl);
@@ -180,6 +160,5 @@ int main(int argc, char **argv)
     	UnixStandardStatus = INIT_ERR;
     }
 
-    fclose(hd_src);
     return UnixStandardStatus;
 }

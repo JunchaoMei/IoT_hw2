@@ -5,9 +5,9 @@ INCLUDES=
 LFLAGS=-L/usr/lib/x86_64-linux-gnu
 LIBS=-lcurl -lpthread
 
-SRC=hw2.c
+SRC=delete.c
 OBJ=$(SRC:.c=.o)
-MAIN=hw2_x86
+MAIN=delete_x86
 
 RM=rm -rf
 
